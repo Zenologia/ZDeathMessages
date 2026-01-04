@@ -1,0 +1,5 @@
+move command feedback to config.yml
+
+get custom messages to send via discordsrv 
+
+multiple entries causes all messages to appear - need it to be a random chance 
