@@ -1,0 +1,117 @@
+# ZDeathMessages configuration
+# Variables: ${victim}, ${victim_display}, ${killer}, ${killer_display}, ${cause}, ${world}, ${x}, ${y}, ${z}, ${weapon_name}, ${weapon_type}, ${distance}
+# After internal variable substitution, strings are optionally processed through PlaceholderAPI (victim context, then killer context if enabled).
+
+general:
+  enabled: true
+  default-format: "LEGACY"        # LEGACY | MINIMESSAGE
+  respect-worldguard: true
+  per-player-toggle-default: true
+
+  # If cause == VOID and killer is unknown (null), use this message (string or a {messages:[...]} section).
+  void-unknown-killer-message: "&c${victim} fell into the void."
+
+  # If no template is found anywhere, use this.
+  generic-fallback-message: "&7${victim} died."
+
+  # When the killer is vanished and the viewer is NOT staff, replace killer identity with this name.
+  vanished-killer-public-name: "Someone"
+
+  # Vanish handling
+  vanish:
+    # If the victim is vanished, suppress death messages for non-staff viewers.
+    victim-suppress-public: true
+    # Optional message shown to staff viewers when victim is vanished.
+    victim-staff-message:
+      messages:
+        - "&8[Vanished] &7${victim_display} died."
+      staff-messages:
+        - "&8[Vanished] &7${victim_display} died at &f${world} &7(${x},${y},${z}) cause=&f${cause}"
+
+  placeholderapi:
+    enabled: true
+    # If true, run PlaceholderAPI a second time using the killer (player) context after victim context.
+    apply-killer-context: false
+
+storage:
+  backend: "YAML"  # YAML | SQLITE | MYSQL
+
+  yaml:
+    file: "playerdata.yml"
+
+  sqlite:
+    file: "zdeathmessages.db"    # relative to plugin data folder
+
+  mysql:
+    host: "127.0.0.1"
+    port: 3306
+    database: "zdeathmessages"
+    username: "user"
+    password: "pass"
+    use-ssl: false
+    connection-pool-size: 5
+
+worlds:
+  # Default world rules and templates. Any world without its own pvp/pve section inherits from here.
+  default:
+    enabled: true
+
+    regions:
+      # If respect-worldguard=true and victim is inside any of these region ids, ZDeathMessages does nothing.
+      disabled: []
+
+    pvp:
+      WEAPON_GROUP:
+        SWORD:
+          messages:
+            - "&c${victim} was cut down by ${killer}'s blade."
+          staff-messages:
+            - "&c${victim_display} was cut down by ${killer_display} using &f${weapon_name}&c (&f${distance}m&c)."
+        AXE:
+          messages:
+            - "&c${victim} was cleaved by ${killer}."
+        BOW:
+          messages:
+            - "&c${victim} was shot by ${killer}."
+        CROSSBOW:
+          messages:
+            - "&c${victim} was shot by ${killer}."
+        OTHER:
+          messages:
+            - "&c${victim} was slain by ${killer}."
+      MATERIAL:
+        TRIDENT:
+          messages:
+            - "&c${victim} was impaled by ${killer}."
+      FALLBACK:
+        messages:
+          - "&c${victim} was slain by ${killer}."
+
+    pve:
+      ENTITY:
+        ZOMBIE:
+          messages:
+            - "&c${victim} was eaten by a zombie."
+        SKELETON:
+          messages:
+            - "&c${victim} was shot by a skeleton."
+      ENVIRONMENT:
+        FALL:
+          messages:
+            - "&c${victim} fell from a high place."
+        LAVA:
+          messages:
+            - "&c${victim} tried to swim in lava."
+        DROWNING:
+          messages:
+            - "&c${victim} drowned."
+      FALLBACK:
+        messages:
+          - "&c${victim} died."
+
+  # Example world override. If pvp/pve keys are missing, inherits from worlds.default.
+  world_nether:
+    enabled: true
+    regions:
+      disabled:
+        - spawn

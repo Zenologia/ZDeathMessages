@@ -1,0 +1,52 @@
+name: ZDeathMessages
+version: 1.0.0
+main: com.zenologia.zdeathmessages.ZDeathMessagesPlugin
+description: Custom hierarchical death messages for Paper 1.21.11
+authors: [Zenologia]
+website: ""
+api-version: "1.21"
+
+dependencies:
+  server:
+    PlaceholderAPI:
+      required: true
+      load: BEFORE
+      join-classpath: true
+    WorldGuard:
+      required: false
+      load: BEFORE
+      join-classpath: true
+    WorldEdit:
+      required: false
+      load: BEFORE
+      join-classpath: true
+    Essentials:
+      required: false
+      load: BEFORE
+      join-classpath: true
+    SuperVanish:
+      required: false
+      load: BEFORE
+      join-classpath: true
+    PremiumVanish:
+      required: false
+      load: BEFORE
+      join-classpath: true
+    LuckPerms:
+      required: false
+      load: BEFORE
+      join-classpath: true
+
+permissions:
+  zdeathmessages.admin:
+    description: Full admin access to ZDeathMessages commands.
+    default: op
+  zdeathmessages.toggle:
+    description: Allows players to toggle death messages for themselves.
+    default: true
+  zdeathmessages.staffview:
+    description: Allows viewing staff-level detail messages.
+    default: op
+  zdeathmessages.debug:
+    description: Allows enabling debug view.
+    default: op
